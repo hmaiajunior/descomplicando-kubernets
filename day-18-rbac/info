@@ -1,0 +1,45 @@
+RBAC:
+
+Para conceder acesso a recursos do cluster Kubernetes, utilizamos RBAC (Role-Based Access Control) como mecanismo de autorização. A autenticação é feita normalmente por certificados, tokens ou provedores externos. Após autenticar o usuário, o Kubernetes verifica suas permissões com base nas Roles/ClusterRoles atribuídas e nas associações feitas por RoleBindings/ClusterRoleBindings.
+
+role
+rolebinding
+clusterrole
+clusterrolebinding
+
+Criando um certificado
+
+openssl genrsa -out developer.key 2048
+
+openssl req -new -key developer.key -out developer.csr -subj "/CN=developer"
+
+cat developer.csr | base64 | tr -d '\n'
+
+kubectl get csr
+
+kubectl certificate approve developer
+
+kubectl get csr developer -o jsonpath='{.status.certificate}' | base64 --decode > developer.crt
+
+
+kubectl api-resources
+kubectl api-resources --namespaced=false
+kubectl api-resources -o wide
+
+kubectl get roles
+kubectl get rolebindings
+
+Para que o usuário recem criado possa ter acesso ao cluster, é preciso configurar o kubeconfig da seguinte forma:
+kubectl config set-credentials developer --client-certificate=developer.crt --client-key=developer.key --embed-certs=true
+kubectl config set-context developer-context --cluster=minikube --namespace=default --user=developer
+kubectl config use-context developer-context
+
+kubectl config get-users
+kubectl config get-clusters
+kubectl config get-contexts
+kubectl config current-context
+kubectl config view
+
+kubectl auth can-i --list
+
+
