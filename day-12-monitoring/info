@@ -1,0 +1,14 @@
+Uma vez instalado o kube-prometheus no kubernetes, o recurso service monitor passa a ser reconhecido pelo k8s. 
+
+O service monitor,recurso do prometheus operator, é o cara que vai falar para o prometheus olhar para um determinado target para poder colher métricas, uma vez que o target esteja expondo essa métricas. Deve ser criado um service monitor por service que se deseja monitorar.
+
+Segue os passos necessários para criar um service monitor para o Nginx, que estará expondo métricas através do nginx-prometheus-exporter:
+
+1. Crie um configmap com a configuração do Nginx, incluindo a configuração do módulo de status que o exporter irá utilizar para colher as métricas. Salve o arquivo como nginx-config.yaml.
+
+2. Crie um deployment do Nginx com o nginx-prometheus-exporter como sidecar. Salve o arquivo como nginx-deployment.yaml.
+
+3. Crie um service para expor a porta do exporter. Salve o arquivo como nginx-service.yaml.
+
+4. Crie um service monitor para o service criado no passo 3. Salve o arquivo como nginx-service-monitor.yaml.
+
