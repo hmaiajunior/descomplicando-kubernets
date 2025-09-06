@@ -43,3 +43,14 @@ kubectl config view
 kubectl auth can-i --list
 
 
+Resumo:
+
+Passos para criar um usuário com RBAC no Kubernetes:
+
+1. Gerar um par de chaves (chave privada e chave pública).
+2. Criar uma CSR (Certificate Signing Request) usando a chave privada.
+3. Submeter a CSR ao Kubernetes.
+4. Aprovar a CSR para emitir o certificado.
+5. Configurar o kubeconfig para usar o novo usuário com o certificado emitido.
+
+
