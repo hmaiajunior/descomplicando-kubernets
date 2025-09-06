@@ -1,0 +1,29 @@
+Realiza o clone do repositório:
+
+git clone https://github.com/prometheus-operator/kube-prometheus
+
+Instalação do CRD:
+
+kubectl create -f manifests/setup/
+
+Após a instalação pode-se executar o comando abaixo para realizar o acesso ao grafana, por exemplo:
+
+kubectl --namespace monitoring port-forward svc/grafana 3000:3000
+
+Logando no grafana com usuário e senha admin/admin, pode-se verificar os dashboards já criados indo em Dashboards > Default. 
+
+Aguarde alguns minutos para que os dados comecem a ser coletados e exibidos nos dashboards.
+
+Até aqui já é possível ter as métricas mais básicas para os nodes e pods do cluster. Caso queira obter métricas mais detalhadas, como por exemplo métricas de aplicações rodando no cluster, é necessário adicionar ServiceMonitors, que serão responsáveis por expor essas métricas para o Prometheus coletar.
+
+Caso queira verificar os services monitors já criados, pode-se executar o comando:
+
+kubectl get servicemonitors -n monitoring
+
+Pra visualizar os detalhes de um servicemonitor específico, pode-se executar o comando:
+
+kubectl describe servicemonitor <nome-do-servicemonitor> -n monitoring
+
+ou ainda, para obter a definição em YAML:
+
+kubectl get servicemonitor <nome-do-servicemonitor> -n monitoring -o yaml
