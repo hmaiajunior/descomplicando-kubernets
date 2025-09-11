@@ -6,6 +6,8 @@ data:
   config.yml: |
     hostPort: localhost:9999
     lowercaseOutputName: true
+    labels:
+      strimzi_io_cluster: "teste"
     rules:
       # Métricas de tópico
       - pattern: kafka.server<type=(.+), name=(.+)><>(Value|Count|Mean|Max|Min|OneMinuteRate|FiveMinuteRate|FifteenMinuteRate)
@@ -35,3 +37,10 @@ data:
       - pattern: kafka.network<type=(.+), name=(.+)><>
         name: kafka_network_$1_$2
         type: GAUGE
+      - pattern: kafka.server<type=BrokerTopicMetrics, name=MessagesInPerSec, topic=(.+)>
+        name: kafka_server_brokertopicmetrics_messagesinpersec_count
+        type: COUNTER
+        labels:
+          topic: "$1"
+        attr:
+          Count: count
